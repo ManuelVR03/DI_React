@@ -20,7 +20,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          {/*<img src={logo} className="App-logo" alt="logo" />*/}
+          <img src='https://www.svgrepo.com/show/446905/peugeot.svg' className="App-logo" alt="logo" />
           <HelloComponent nombre={this.state.name}></HelloComponent>
           <InputComponent nombre={this.state.name} cambiarNombre={this.changeName}></InputComponent>
         </header>
