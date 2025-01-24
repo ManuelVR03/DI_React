@@ -1,5 +1,3 @@
-/*Mostrar un selector tipo select con los días de la semana. Cuando se pulse uno de ellos
-deberá mostrarse en la página.*/
 import { Component } from "react";
 
 export default class Semanal extends Component {

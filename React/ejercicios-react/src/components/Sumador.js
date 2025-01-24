@@ -10,13 +10,11 @@ export default class Sumador extends Component {
   }
   
   handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: Number(value) });
+    this.setState({ [event.target.name]: Number(event.target.value) });
   };
 
   handleSum = () => {
-    const { num1, num2 } = this.state;
-    alert(num1 + num2);
+    alert(this.state.num1 + this.state.num2);
   };
 
   render() {

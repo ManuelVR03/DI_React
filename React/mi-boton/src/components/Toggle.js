@@ -4,8 +4,6 @@ export default class Toggle extends Component {
     constructor(props) {
         super(props);
         this.state = { isToggleOn: true };
-        // Este enlace es necesario para que ‘this’ funcione en
-        // el callback
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {

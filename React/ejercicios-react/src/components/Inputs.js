@@ -1,5 +1,3 @@
-/*Crear una aplicación con dos elementos tipo text en la que los valores introducidos en uno
-de ellos se reflejen automáticamente en el otro.*/
 import { Component } from "react";
 
 export default class Inputs extends Component {
@@ -11,8 +9,7 @@ export default class Inputs extends Component {
     }
 
     handleChange = (event) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value });
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {

@@ -5,6 +5,7 @@ import Semanal from './components/Semanal';
 import Inputs from './components/Inputs';
 import Factura from './components/Factura';
 import Dado from './components/Dado';
+import Juego from './components/Juego';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <Inputs />
         <Factura />
         <Dado />
+        <Juego />
       </div>
     );
   }

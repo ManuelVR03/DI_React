@@ -1,8 +1,3 @@
-/*Crear una aplicación para añadir elementos a una factura que se mostrará en la página.
-Tendrá un formulario que recogerá el nombre del producto mediante un selector tipo select,
-su precio y la cantidad, ambos en un elemento tipo number; al pulsar el botón se añadirá esa
-línea a la factura, actualizando el precio final de la misma.*/
-
 import { Component } from "react";
 
 export default class Factura extends Component {
@@ -12,11 +7,20 @@ export default class Factura extends Component {
             nombre: '',
             precio: 0,
             cantidad: 0,
-            total: 0
-        }
+            total: 0,
+            items: []
+        };
+        this.newCompra = this.newCompra.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    newCompra = (e) => {
+    handleChange(e) {
+        this.setState({
+            [e.target.id]: e.target.value
+        });
+    }
+
+    newCompra(e) {
         e.preventDefault();
         let producto = document.getElementById('producto').value;
         let precio = document.getElementById('precio').value;
@@ -28,34 +32,43 @@ export default class Factura extends Component {
             cantidad: cantidad,
             total: total
         });
+        this.state.items.push({
+            nombre: producto,
+            precio: precio,
+            cantidad: cantidad
+        });
     }
-    
+
     render() {
         return (
             <div>
                 <h1>Factura</h1>
                 <form>
-                    <label for='producto'>Producto: </label>
-                    <select id='producto'>
+                    <label htmlFor='producto'>Producto: </label>
+                    <select id='producto' value={this.state.nombre} onChange={this.handleChange}>
                         <option value='Martillo'>Martillo</option>
                         <option value='Destornillador'>Destornillador</option>
                         <option value='Caladora'>Caladora</option>
                     </select>
                     <br />
-                    <label for='precio'>Precio: </label>
-                    <input type='number' id='precio' />
+                    <label htmlFor='precio'>Precio: </label>
+                    <input type='number' id='precio' value={this.state.precio} onChange={this.handleChange}/>
                     <br />
-                    <label for='cantidad'>Cantidad: </label>
-                    <input type='number' id='cantidad' />
+                    <label htmlFor='cantidad'>Cantidad: </label>
+                    <input type='number' id='cantidad' value={this.state.cantidad} onChange={this.handleChange}/>
                     <br />
                     <button onClick={this.newCompra}>Añadir</button>
                 </form>
                 <h3>Factura</h3>
-                <ul>
-                    <li>Producto: {this.state.nombre} - Precio: {this.state.precio} - Cantidad: {this.state.cantidad}</li>
-                </ul>
+                <p>
+                    {this.state.items.map((item, index) => (
+                        <span key={index}>
+                            Producto: {item.nombre}, Precio: {item.precio}€, Cantidad: {item.cantidad}
+                        </span>
+                    ))}
+                </p>
                 <p>Total: {this.state.total}€</p>
             </div>
         )
     }
-} 
+}
