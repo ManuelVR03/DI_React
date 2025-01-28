@@ -4,7 +4,7 @@ export default class Factura extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nombre: '',
+            producto: 'Martillo',
             precio: 0,
             cantidad: 0,
             total: 0,
@@ -15,28 +15,23 @@ export default class Factura extends Component {
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.id]: e.target.value
-        });
+        const { id, value } = e.target;
+        this.setState({ [id]: id === "precio" || id === "cantidad" ? Number(value) : value });
     }
 
     newCompra(e) {
         e.preventDefault();
-        let producto = document.getElementById('producto').value;
-        let precio = document.getElementById('precio').value;
-        let cantidad = document.getElementById('cantidad').value;
-        let total = this.state.total + (precio * cantidad);
-        this.setState({
-            nombre: producto,
-            precio: precio,
-            cantidad: cantidad,
-            total: total
-        });
-        this.state.items.push({
-            nombre: producto,
-            precio: precio,
-            cantidad: cantidad
-        });
+        const { producto, precio, cantidad, total, items } = this.state;
+        if (precio > 0 && cantidad > 0) {
+            const nuevoTotal = total + precio * cantidad;
+            const nuevoItem = { nombre: producto, precio, cantidad };
+            this.setState({
+                items: [...items, nuevoItem],
+                total: nuevoTotal,
+                precio: 0,
+                cantidad: 0
+            });
+        }
     }
 
     render() {
@@ -44,31 +39,31 @@ export default class Factura extends Component {
             <div>
                 <h1>Factura</h1>
                 <form>
-                    <label htmlFor='producto'>Producto: </label>
-                    <select id='producto' value={this.state.nombre} onChange={this.handleChange}>
+                    <label htmlFor='producto'>Producto:</label>
+                    <select id='producto' value={this.state.producto} onChange={this.handleChange}>
                         <option value='Martillo'>Martillo</option>
                         <option value='Destornillador'>Destornillador</option>
                         <option value='Caladora'>Caladora</option>
                     </select>
-                    <br />
-                    <label htmlFor='precio'>Precio: </label>
-                    <input type='number' id='precio' value={this.state.precio} onChange={this.handleChange}/>
-                    <br />
-                    <label htmlFor='cantidad'>Cantidad: </label>
-                    <input type='number' id='cantidad' value={this.state.cantidad} onChange={this.handleChange}/>
-                    <br />
+                    <br /><br /><br />
+                    <label htmlFor='precio'>Precio:</label>
+                    <input type='number' id='precio' value={this.state.precio} onChange={this.handleChange} />
+                    <br /><br /><br />
+                    <label htmlFor='cantidad'>Cantidad:</label>
+                    <input type='number' id='cantidad' value={this.state.cantidad} onChange={this.handleChange} />
+                    <br /><br /><br />
                     <button onClick={this.newCompra}>Añadir</button>
                 </form>
                 <h3>Factura</h3>
-                <p>
+                <div>
                     {this.state.items.map((item, index) => (
-                        <span key={index}>
-                            Producto: {item.nombre}, Precio: {item.precio}€, Cantidad: {item.cantidad}
-                        </span>
+                        <p key={index}>
+                            <strong>Producto:</strong> {item.nombre}, <strong>Precio:</strong> {item.precio}€, <strong>Cantidad:</strong> {item.cantidad}
+                        </p>
                     ))}
-                </p>
-                <p>Total: {this.state.total}€</p>
+                </div>
+                <p><strong>Total:</strong> {this.state.total}€</p>
             </div>
-        )
+        );
     }
 }

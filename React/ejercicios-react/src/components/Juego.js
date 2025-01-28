@@ -7,7 +7,8 @@ export default class Juego extends Component {
       jugadoresArray: [],
       parcial: [],
       media: [],
-      tiradaActual: 0
+      tiradaActual: 0,
+      turnoActual: 0
     };
     
     this.jugar = this.jugar.bind(this);
@@ -15,50 +16,48 @@ export default class Juego extends Component {
   }
 
   jugar() {
-    
     let numJugadores = Number(prompt('Introduce el número de jugadores'));
-    
     let jugadoresArray = [];
-    let parcial = [];
-    let media = [];
+    let parcial = new Array(numJugadores).fill(0);
+    let media = new Array(numJugadores).fill(0);
 
     for (let i = 0; i < numJugadores; i++) {
       let nombre = prompt('Introduce el nombre del jugador ' + (i + 1));
       jugadoresArray.push([nombre]);
-      parcial.push(0);
-      media.push(0);
     }
 
     this.setState({
       jugadoresArray,
       parcial,
       media,
-      tiradaActual: 0
+      tiradaActual: 0,
+      turnoActual: 0
     });
   }
 
   tiradas() {
-    if (this.state.tiradaActual < 5) {
-      let nuevaTirada = this.state.tiradaActual + 1;
-      
-      let jugadoresArray = [...this.state.jugadoresArray];
-      let parcial = [...this.state.parcial];
-      let media = [...this.state.media];
-      
-      for (let i = 0; i < jugadoresArray.length; i++) {
-        let dado = Math.floor(Math.random() * 6) + 1;
-        jugadoresArray[i].push(dado);
-        parcial[i] += dado;
-        media[i] = parcial[i] / nuevaTirada;
-      }
+    let { jugadoresArray, parcial, media, tiradaActual, turnoActual } = this.state;
+    
+    if (tiradaActual < 5) {
+      let dado = Math.floor(Math.random() * 6) + 1;
+      jugadoresArray[turnoActual].push(dado);
+      parcial[turnoActual] += dado;
+      media[turnoActual] = parcial[turnoActual] / (tiradaActual + 1);
 
+      let nuevoTurno = turnoActual + 1;
+      let nuevaTirada = tiradaActual;
+      if (nuevoTurno >= jugadoresArray.length) {
+        nuevoTurno = 0;
+        nuevaTirada += 1;
+      }
+      
       this.setState({
         jugadoresArray,
         parcial,
         media,
-        tiradaActual: nuevaTirada
+        tiradaActual: nuevaTirada,
+        turnoActual: nuevoTurno
       });
-
     } else {
       alert("Ya se han realizado las 5 tiradas.");
     }
