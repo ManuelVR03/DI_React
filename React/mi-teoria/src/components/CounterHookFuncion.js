@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-export default function CounterHook() {
+export default function CounterHookFuncion() {
     const [count, setCount] = useState(0)
 
     const incrementar = () => {
-        setCount(count + 1)
+        setCount(c => c + 1)
+        setCount(c => c + 1)
+        setCount(c => c + 1)
     }
     const decrementar = () => {
         setCount(count - 1)
